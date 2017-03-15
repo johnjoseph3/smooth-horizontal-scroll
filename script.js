@@ -1,6 +1,6 @@
 function isScrolledIntoView(el) {
-  var playlistContainer = document.getElementById("playlist-container");
-  outerContainer = playlistContainer.getBoundingClientRect();
+  var horizontalScrollOuterContainer = document.getElementById("horizontal-scroll-outer-container");
+  var outerContainer = horizontalScrollOuterContainer.getBoundingClientRect();
   var elemLeft = el.getBoundingClientRect().left;
   var elemRight = el.getBoundingClientRect().right;
   var isOffScreenToleft = (elemLeft < outerContainer.left);
@@ -9,69 +9,67 @@ function isScrolledIntoView(el) {
   return {isOffScreenToleft, isOffScreenToRight, isFullyOnScreen};
 }
 
-
-var distance = 0;
+var scrollDistance = 0;
 document.getElementById("right").addEventListener("click", function(){
-  var playlistContainer = document.getElementById("playlist-container");
-  var lis = document.getElementsByClassName("xc");
-  var playlistUl = document.getElementById("playListUl");
-  var reachedFirstFullyOnScreenLi = false;
+  var horizontalScrollOuterContainer = document.getElementById("horizontal-scroll-outer-container");
+  var horizontalScrollInnerContainer = document.getElementById("horizontal-scroll-inner-container");
+  var scrollItems = document.getElementsByClassName("scroll-item");
+  var reachedFirstFullyOnScreenItem = false;
   var shouldScroll = false;
 
-  for(i = 0; i < lis.length; i++){
-    if(!reachedFirstFullyOnScreenLi && isScrolledIntoView(lis[i]).isFullyOnScreen){
-      reachedFirstFullyOnScreenLi = true;
+  for(i = 0; i < scrollItems.length; i++){
+    if(!reachedFirstFullyOnScreenItem && isScrolledIntoView(scrollItems[i]).isFullyOnScreen){
+      reachedFirstFullyOnScreenItem = true;
     };
-    if(reachedFirstFullyOnScreenLi && isScrolledIntoView(lis[i]).isOffScreenToRight){
+    if(reachedFirstFullyOnScreenItem && isScrolledIntoView(scrollItems[i]).isOffScreenToRight){
 
-      if((lis[lis.length - 1].getBoundingClientRect().right - lis[i].getBoundingClientRect().left) > playlistContainer.getBoundingClientRect().width) {
-        distance = distance - lis[i].getBoundingClientRect().left;
+      if((scrollItems[scrollItems.length - 1].getBoundingClientRect().right - scrollItems[i].getBoundingClientRect().left) > horizontalScrollOuterContainer.getBoundingClientRect().width) {
+        scrollDistance = scrollDistance - scrollItems[i].getBoundingClientRect().left;
         shouldScroll = true;
       } else {
-        distance =  distance - (lis[lis.length - 1].getBoundingClientRect().right - lis[i - 1].getBoundingClientRect().right);
+        scrollDistance =  scrollDistance - (scrollItems[scrollItems.length - 1].getBoundingClientRect().right - scrollItems[i - 1].getBoundingClientRect().right);
         shouldScroll = true;
       }
-      reachedFirstFullyOnScreenLi = false;
+      reachedFirstFullyOnScreenItem = false;
       break;
     }
   }
 
   if(shouldScroll){
-    for(li of lis) {
-      li.style.transform = "translate(" + distance + "px)";
+    for(li of scrollItems) {
+      li.style.transform = "translate(" + scrollDistance + "px)";
     }
   }
 
 })
 
-
 document.getElementById("left").addEventListener("click", function(){
-  var playlistContainer = document.getElementById("playlist-container");
-  var lis = document.getElementsByClassName("xc");
-  var playlistUl = document.getElementById("playListUl");
-  var reachedFirstFullyOnScreenLi = false;
+  var horizontalScrollOuterContainer = document.getElementById("horizontal-scroll-outer-container");
+  var horizontalScrollInnerContainer = document.getElementById("horizontal-scroll-inner-container");
+  var scrollItems = document.getElementsByClassName("scroll-item");
+  var reachedFirstFullyOnScreenItem = false;
   var shouldScroll = false;
 
-  for(i = 0; i < lis.length; i++){
-    if(isScrolledIntoView(lis[i]).isFullyOnScreen){
-      reachedFirstFullyOnScreenLi = true;
+  for(i = 0; i < scrollItems.length; i++){
+    if(isScrolledIntoView(scrollItems[i]).isFullyOnScreen){
+      reachedFirstFullyOnScreenItem = true;
     };
-    if(reachedFirstFullyOnScreenLi){
-      if( Math.abs(lis[0].getBoundingClientRect().left) > playlistContainer.getBoundingClientRect().width) {
-        distance =  distance + (playlistContainer.getBoundingClientRect().width - lis[i].getBoundingClientRect().right);
+    if(reachedFirstFullyOnScreenItem){
+      if( Math.abs(scrollItems[0].getBoundingClientRect().left) > horizontalScrollOuterContainer.getBoundingClientRect().width) {
+        scrollDistance =  scrollDistance + (horizontalScrollOuterContainer.getBoundingClientRect().width - scrollItems[i].getBoundingClientRect().right);
         shouldScroll = true;
       } else {
-        distance =  distance - lis[0].getBoundingClientRect().left;
+        scrollDistance =  scrollDistance - scrollItems[0].getBoundingClientRect().left;
         shouldScroll = true;
       }
-      reachedFirstFullyOnScreenLi = false;
+      reachedFirstFullyOnScreenItem = false;
       break;
     }
   }
 
   if(shouldScroll){
-    for(li of lis) {
-      li.style.transform = "translate(" + distance + "px)";
+    for(scrollItem of scrollItems) {
+      scrollItem.style.transform = "translate(" + scrollDistance + "px)";
     }
   }
 

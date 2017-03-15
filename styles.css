@@ -1,8 +1,8 @@
-#playlist-container{
+#horizontal-scroll-outer-container {
   width:100%;
   height:80px;
 }
-ul {
+#horizontal-scroll-inner-container {
   width: 100%;
   height: 100px;
   overflow: hidden;
@@ -11,7 +11,7 @@ ul {
   margin: 0;
   transition: transform 1s;
 }
-.xc{
+.scroll-item {
   display:inline-block;
   width:150px;
   height:80px;
