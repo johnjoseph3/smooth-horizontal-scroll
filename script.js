@@ -1,6 +1,6 @@
 function isScrolledIntoView(el) {
-  var horizontalScrollOuterContainer = document.getElementById("horizontal-scroll-outer-container");
-  var outerContainer = horizontalScrollOuterContainer.getBoundingClientRect();
+  var scrollContainer = document.getElementById("scroll-container");
+  var outerContainer = scrollContainer.getBoundingClientRect();
   var elemLeft = el.getBoundingClientRect().left;
   var elemRight = el.getBoundingClientRect().right;
   var isOffScreenToleft = (elemLeft < outerContainer.left);
@@ -11,8 +11,7 @@ function isScrolledIntoView(el) {
 
 var scrollDistance = 0;
 document.getElementById("right").addEventListener("click", function(){
-  var horizontalScrollOuterContainer = document.getElementById("horizontal-scroll-outer-container");
-  var horizontalScrollInnerContainer = document.getElementById("horizontal-scroll-inner-container");
+  var scrollContainer = document.getElementById("scroll-container");
   var scrollItems = document.getElementsByClassName("scroll-item");
   var reachedFirstFullyOnScreenItem = false;
   var shouldScroll = false;
@@ -23,7 +22,7 @@ document.getElementById("right").addEventListener("click", function(){
     };
     if(reachedFirstFullyOnScreenItem && isScrolledIntoView(scrollItems[i]).isOffScreenToRight){
 
-      if((scrollItems[scrollItems.length - 1].getBoundingClientRect().right - scrollItems[i].getBoundingClientRect().left) > horizontalScrollOuterContainer.getBoundingClientRect().width) {
+      if((scrollItems[scrollItems.length - 1].getBoundingClientRect().right - scrollItems[i].getBoundingClientRect().left) > scrollContainer.getBoundingClientRect().width) {
         scrollDistance = scrollDistance - scrollItems[i].getBoundingClientRect().left;
         shouldScroll = true;
       } else {
@@ -44,8 +43,7 @@ document.getElementById("right").addEventListener("click", function(){
 })
 
 document.getElementById("left").addEventListener("click", function(){
-  var horizontalScrollOuterContainer = document.getElementById("horizontal-scroll-outer-container");
-  var horizontalScrollInnerContainer = document.getElementById("horizontal-scroll-inner-container");
+  var scrollContainer = document.getElementById("scroll-container");
   var scrollItems = document.getElementsByClassName("scroll-item");
   var reachedFirstFullyOnScreenItem = false;
   var shouldScroll = false;
@@ -55,8 +53,8 @@ document.getElementById("left").addEventListener("click", function(){
       reachedFirstFullyOnScreenItem = true;
     };
     if(reachedFirstFullyOnScreenItem){
-      if( Math.abs(scrollItems[0].getBoundingClientRect().left) > horizontalScrollOuterContainer.getBoundingClientRect().width) {
-        scrollDistance =  scrollDistance + (horizontalScrollOuterContainer.getBoundingClientRect().width - scrollItems[i].getBoundingClientRect().right);
+      if(Math.abs(scrollItems[0].getBoundingClientRect().left) > scrollContainer.getBoundingClientRect().width) {
+        scrollDistance =  scrollDistance + (scrollContainer.getBoundingClientRect().width - scrollItems[i].getBoundingClientRect().right);
         shouldScroll = true;
       } else {
         scrollDistance =  scrollDistance - scrollItems[0].getBoundingClientRect().left;
