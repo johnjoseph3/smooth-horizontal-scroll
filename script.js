@@ -1,4 +1,5 @@
 var scrollDistance = 0;
+
 function isScrolledIntoView(el) {
   var scrollContainer = document.getElementById("scroll-container");
   var outerContainer = scrollContainer.getBoundingClientRect();
@@ -9,14 +10,14 @@ function isScrolledIntoView(el) {
   var isFullyOnScreen = (elemLeft > outerContainer.left && elemRight < outerContainer.right);
   return {isOffScreenToleft, isOffScreenToRight, isFullyOnScreen};
 }
-function scroll(event) {
 
+function scroll(event) {
   var scrollContainer = document.getElementById("scroll-container");
   var scrollItems = document.getElementsByClassName("scroll-item");
   var reachedFirstFullyOnScreenItem = false;
   var shouldScroll = false;
 
-  if(event.target.id === 'right'){
+  if(event.target.id === 'right-scroll-button'){
     for(i = 0; i < scrollItems.length; i++){
       if(!reachedFirstFullyOnScreenItem && isScrolledIntoView(scrollItems[i]).isFullyOnScreen){
         reachedFirstFullyOnScreenItem = true;
@@ -36,7 +37,7 @@ function scroll(event) {
     }
   }
 
-  if(event.target.id === 'left'){
+  if(event.target.id === 'left-scroll-button'){
     for(i = 0; i < scrollItems.length; i++){
       if(isScrolledIntoView(scrollItems[i]).isFullyOnScreen){
         reachedFirstFullyOnScreenItem = true;
@@ -62,5 +63,5 @@ function scroll(event) {
   }
 }
 
-document.getElementById("right").addEventListener("click", scroll);
-document.getElementById("left").addEventListener("click", scroll);
+document.getElementById("right-scroll-button").addEventListener("click", scroll);
+document.getElementById("left-scroll-button").addEventListener("click", scroll);
