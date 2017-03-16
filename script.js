@@ -17,13 +17,12 @@ function scroll(event) {
   var reachedFirstFullyOnScreenItem = false;
   var shouldScroll = false;
 
-  if(event.target.id === 'right-scroll-button'){
-    for(i = 0; i < scrollItems.length; i++){
-      if(!reachedFirstFullyOnScreenItem && isScrolledIntoView(scrollItems[i]).isFullyOnScreen){
-        reachedFirstFullyOnScreenItem = true;
-      };
+  for(i = 0; i < scrollItems.length; i++){
+    if(isScrolledIntoView(scrollItems[i]).isFullyOnScreen){
+      reachedFirstFullyOnScreenItem = true;
+    };
+    if(event.target.id === 'right-scroll-button'){
       if(reachedFirstFullyOnScreenItem && isScrolledIntoView(scrollItems[i]).isOffScreenToRight){
-
         if((scrollItems[scrollItems.length - 1].getBoundingClientRect().right - scrollItems[i].getBoundingClientRect().left) > scrollContainer.getBoundingClientRect().width) {
           scrollDistance = scrollDistance - scrollItems[i].getBoundingClientRect().left;
           shouldScroll = true;
@@ -35,13 +34,7 @@ function scroll(event) {
         break;
       }
     }
-  }
-
-  if(event.target.id === 'left-scroll-button'){
-    for(i = 0; i < scrollItems.length; i++){
-      if(isScrolledIntoView(scrollItems[i]).isFullyOnScreen){
-        reachedFirstFullyOnScreenItem = true;
-      };
+    if(event.target.id === 'left-scroll-button'){
       if(reachedFirstFullyOnScreenItem){
         if(Math.abs(scrollItems[0].getBoundingClientRect().left) > scrollContainer.getBoundingClientRect().width) {
           scrollDistance =  scrollDistance + (scrollContainer.getBoundingClientRect().width - scrollItems[i].getBoundingClientRect().right);
@@ -54,8 +47,8 @@ function scroll(event) {
         break;
       }
     }
+
   }
-  // Same
   if(shouldScroll){
     for(scrollItem of scrollItems) {
       scrollItem.style.transform = "translate(" + scrollDistance + "px)";
