@@ -10,10 +10,5 @@
 .scroll-item {
   display:inline-block;
   width:150px;
-  height:80px;
-  line-height:80px;
-  text-align:center;
   transition: transform 1s;
-  background-color: blue;
-  color: white;
 }

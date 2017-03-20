@@ -39,7 +39,7 @@ function scroll(event) {
         if(Math.abs(scrollItems[0].getBoundingClientRect().left) > scrollContainer.width) {
           scrollDistance =  scrollDistance + (scrollContainer.width - scrollItems[i].getBoundingClientRect().right);
         } else {
-          scrollDistance =  scrollDistance - scrollItems[0].getBoundingClientRect().left;
+          scrollDistance =  scrollDistance - scrollItems[0].getBoundingClientRect().left + 10;
         }
         setIsScrollingTimer();
         break;
