@@ -1,58 +1,54 @@
 var scrollDistance = 0;
+var scrollItems = document.getElementsByClassName("scroll-item");
+var isScrolling = false;
 
 function isScrolledIntoView(el) {
-  var scrollContainer = document.getElementById("scroll-container");
-  var outerContainer = scrollContainer.getBoundingClientRect();
-  var elemLeft = el.getBoundingClientRect().left;
-  var elemRight = el.getBoundingClientRect().right;
-  var isOffScreenToleft = (elemLeft < outerContainer.left);
-  var isOffScreenToRight = (elemRight > outerContainer.right);
-  var isFullyOnScreen = (elemLeft > outerContainer.left && elemRight < outerContainer.right);
-  return {isOffScreenToleft, isOffScreenToRight, isFullyOnScreen};
+  var scrollContainer = document.getElementById("scroll-container").getBoundingClientRect();
+  var isOffScreenToleft = el.getBoundingClientRect().left < scrollContainer.left;
+  var isOffScreenToRight = el.getBoundingClientRect().right > scrollContainer.right;
+  return { isOffScreenToleft: isOffScreenToleft, isOffScreenToRight: isOffScreenToRight, isFullyOnScreen: !isOffScreenToleft && !isOffScreenToRight };
+}
+
+function setIsScrollingTimer() {
+  isScrolling = true
+  setTimeout(function(){isScrolling = false}, 1000);
 }
 
 function scroll(event) {
-  var scrollContainer = document.getElementById("scroll-container");
+  var scrollContainer = document.getElementById("scroll-container").getBoundingClientRect();
   var scrollItems = document.getElementsByClassName("scroll-item");
   var reachedFirstFullyOnScreenItem = false;
-  var shouldScroll = false;
 
   for(i = 0; i < scrollItems.length; i++){
     if(isScrolledIntoView(scrollItems[i]).isFullyOnScreen){
       reachedFirstFullyOnScreenItem = true;
     };
-    if(event.target.id === 'right-scroll-button'){
+    if(event.target.id === 'right-scroll-button' && !isScrolling){
       if(reachedFirstFullyOnScreenItem && isScrolledIntoView(scrollItems[i]).isOffScreenToRight){
-        if((scrollItems[scrollItems.length - 1].getBoundingClientRect().right - scrollItems[i].getBoundingClientRect().left) > scrollContainer.getBoundingClientRect().width) {
+        if((scrollItems[scrollItems.length - 1].getBoundingClientRect().right - scrollItems[i].getBoundingClientRect().left) > scrollContainer.width) {
           scrollDistance = scrollDistance - scrollItems[i].getBoundingClientRect().left;
-          shouldScroll = true;
         } else {
           scrollDistance =  scrollDistance - (scrollItems[scrollItems.length - 1].getBoundingClientRect().right - scrollItems[i - 1].getBoundingClientRect().right);
-          shouldScroll = true;
         }
-        reachedFirstFullyOnScreenItem = false;
+        setIsScrollingTimer();
         break;
       }
     }
-    if(event.target.id === 'left-scroll-button'){
+    if(event.target.id === 'left-scroll-button' & !isScrolling){
       if(reachedFirstFullyOnScreenItem){
-        if(Math.abs(scrollItems[0].getBoundingClientRect().left) > scrollContainer.getBoundingClientRect().width) {
-          scrollDistance =  scrollDistance + (scrollContainer.getBoundingClientRect().width - scrollItems[i].getBoundingClientRect().right);
-          shouldScroll = true;
+        if(Math.abs(scrollItems[0].getBoundingClientRect().left) > scrollContainer.width) {
+          scrollDistance =  scrollDistance + (scrollContainer.width - scrollItems[i].getBoundingClientRect().right);
         } else {
           scrollDistance =  scrollDistance - scrollItems[0].getBoundingClientRect().left;
-          shouldScroll = true;
         }
-        reachedFirstFullyOnScreenItem = false;
+        setIsScrollingTimer();
         break;
       }
     }
-
   }
-  if(shouldScroll){
-    for(scrollItem of scrollItems) {
-      scrollItem.style.transform = "translate(" + scrollDistance + "px)";
-    }
+
+  for(scrollItem of scrollItems) {
+    scrollItem.style.transform = "translate(" + scrollDistance + "px)";
   }
 }
 
