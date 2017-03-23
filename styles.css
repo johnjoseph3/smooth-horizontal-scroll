@@ -5,10 +5,13 @@
   white-space: nowrap;
   padding: 0;
   margin: 0;
-  transition: transform 1s;
 }
 .scroll-item {
-  display:inline-block;
-  width:150px;
+  display: inline-block;
+  width: 150px;
   transition: transform 1s;
+  -moz-transition: transform 1s; /* Firefox 4 */
+  -webkit-transition: transform 1s; /* Safari and Chrome */
+  -o-transition: transform 1s; /* Opera */
+  -ms-transition: transform 1s;
 }

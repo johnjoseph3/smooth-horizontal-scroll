@@ -19,7 +19,7 @@ function scroll(event) {
   var scrollItems = document.getElementsByClassName("scroll-item");
   var reachedFirstFullyOnScreenItem = false;
 
-  for(i = 0; i < scrollItems.length; i++){
+  for(var i = 0; i < scrollItems.length; i++){
     if(isScrolledIntoView(scrollItems[i]).isFullyOnScreen){
       reachedFirstFullyOnScreenItem = true;
     };
