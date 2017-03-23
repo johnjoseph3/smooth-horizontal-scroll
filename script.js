@@ -10,7 +10,7 @@ function isScrolledIntoView(el) {
 }
 
 function setIsScrollingTimer() {
-  isScrolling = true
+  isScrolling = true;
   setTimeout(function(){isScrolling = false}, 1000);
 }
 
@@ -46,9 +46,8 @@ function scroll(event) {
       }
     }
   }
-
-  for(scrollItem of scrollItems) {
-    scrollItem.style.transform = "translate(" + scrollDistance + "px)";
+  for(i = 0; i < scrollItems.length; i++) {
+    scrollItems[i].style.transform = "translate(" + scrollDistance + "px)";
   }
 }
 
