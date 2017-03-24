@@ -1,7 +1,14 @@
 window.smoothHorizontalScroll = function(){
+
   var scrollDistance = 0;
   var scrollItems = document.getElementsByClassName("scroll-item");
   var isScrolling = false;
+
+  function applyTranslation(scrollItems) {
+    for(i = 0; i < scrollItems.length; i++) {
+      scrollItems[i].style.transform = "translate(" + scrollDistance + "px)";
+    }
+  };
 
   function isScrolledIntoView(el) {
     var scrollContainer = document.getElementById("scroll-container").getBoundingClientRect();
@@ -16,6 +23,7 @@ window.smoothHorizontalScroll = function(){
   }
 
   function scroll(event) {
+    event.stopPropagation();
     var scrollContainer = document.getElementById("scroll-container").getBoundingClientRect();
     var scrollItems = document.getElementsByClassName("scroll-item");
     var reachedFirstFullyOnScreenItem = false;
@@ -47,11 +55,19 @@ window.smoothHorizontalScroll = function(){
         }
       }
     }
-    for(i = 0; i < scrollItems.length; i++) {
-      scrollItems[i].style.transform = "translate(" + scrollDistance + "px)";
-    }
+    applyTranslation(scrollItems);
   }
 
-  document.getElementById("right-scroll-button").addEventListener("click", scroll);
-  document.getElementById("left-scroll-button").addEventListener("click", scroll);
+  return {
+    init: function() {
+      document.getElementById("right-scroll-button").addEventListener("click", scroll);
+      document.getElementById("left-scroll-button").addEventListener("click", scroll);
+    },
+    updateScrollItems: function() {
+      setTimeout(function(){
+        applyTranslation(document.getElementsByClassName("scroll-item"));
+      }, 500);
+    }
+  };
+
 };
