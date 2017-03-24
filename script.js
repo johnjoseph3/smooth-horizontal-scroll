@@ -66,7 +66,7 @@ window.smoothHorizontalScroll = function(){
     updateScrollItems: function() {
       setTimeout(function(){
         applyTranslation(document.getElementsByClassName("scroll-item"));
-      }, 500);
+      }, 0);
     }
   };
 
