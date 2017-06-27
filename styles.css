@@ -14,4 +14,5 @@
   -webkit-transition: transform 1s; /* Safari and Chrome */
   -o-transition: transform 1s; /* Opera */
   -ms-transition: transform 1s;
+  background-color: #e6e6e6;
 }
