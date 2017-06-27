@@ -5,13 +5,13 @@ Create a parent container with id="scroll-container". Inside, place scrollable i
 
 See index.html for example of markup structure.
 
-Initialiaze:
+Initialize:
 ```
 var horizontalScroll = smoothHorizontalScroll();
 horizontalScroll.init();
 ```
 
-Call everytime you add a scroll item to scroll-container:
+Call every time you add a scroll item to scroll-container:
 ```
 horizontalScroll.updateScrollItems();
 ```
